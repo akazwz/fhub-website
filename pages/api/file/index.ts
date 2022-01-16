@@ -1,9 +1,56 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import formidable, { Fields, File, Files } from 'formidable'
-import { runCors } from '../middleware/cors'
+import OSS, { ACLType } from 'ali-oss'
 import * as fs from 'fs'
+import { runCors } from '../middleware/cors'
+import { fileTypeFromFile } from 'file-type'
+import { getBindingIdentifiers } from '@babel/types'
 
-export default async function handle(req: NextApiRequest, res: NextApiResponse) {
+const client = new OSS({
+  region: 'oss-cn-hangzhou',
+  accessKeyId: 'LTAI5tDaTopVisPZD6scLwte',
+  accessKeySecret: 'LLKe0P8nSBcHaA9nbX4W1uaE4PbGWn',
+  bucket: 'akazwz',
+})
+
+export type upLoadAliOssRes = {
+  success: boolean,
+  url: string,
+  msg: string,
+}
+
+// upload file to ali oss
+const uploadToAliOSS = async (filename: string, filePath: string, acl: ACLType): Promise<upLoadAliOssRes> => {
+  const put = async () => {
+    try {
+      const putResult = await client.put(filename, filePath, {})
+      await client.putACL(filename, acl)
+      const aclResult = await client.getACL(filename)
+      if (aclResult.acl === acl) {
+        return {
+          success: true,
+          url: putResult.url,
+          msg: 'success',
+        }
+      }
+      return {
+        success: false,
+        url: '',
+        msg: 'put object or put acl error',
+      }
+    } catch (e) {
+      console.log(e)
+      return {
+        success: false,
+        url: '',
+        msg: 'put error',
+      }
+    }
+  }
+  return await put()
+}
+
+export default async function handle (req: NextApiRequest, res: NextApiResponse) {
   await runCors(req, res)
   switch (req.method) {
     case 'POST':
@@ -20,39 +67,63 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
   }
 }
 
-const uploadStream = (files: Files) => {
-  console.log('new filename:')
-  console.log(files)
-}
-
 const handleUploadFile = async (req: NextApiRequest, res: NextApiResponse) => {
   const form = formidable({
-    multiples: true,
+    multiples: false,
     hashAlgorithm: 'sha256',
     maxFileSize: 300 * 1024 * 1024,
   })
 
-  form.parse(req, (err, fields, files)=>{
-  })
+  let sha256: string
+  let acl: ACLType
+  let F: File
 
   form.on('field', (name: string, value: string) => {
-    console.log('field')
-    console.log(name, value)
+    switch (name) {
+      case 'sha256':
+        sha256 = value
+        return
+      case 'acl':
+        switch (value) {
+          case 'public-read-write':
+            acl = 'public-read-write'
+            break
+          case 'public-read':
+            acl = 'public-read'
+            break
+        }
+        return
+    }
   })
 
   // get file sha256 file hash
-  form.on('file', (formName: string, file: File) => {
-    console.log('file')
-    console.log(formName, file.newFilename)
-    const fileBuffer = fs.readFileSync(file.filepath)
-    const fileBase64 = fileBuffer.toString('base64')
-    res.status(200).json({ file: fileBase64 })
+  form.on('file', async (formName: string, file: File) => {
+    if (formName === 'file') {
+      F = file
+    }
+  })
+
+  // change file path and file name here
+  form.on('fileBegin', (formName: string, file: File) => {
+    file.newFilename = file.newFilename + '-' + file.originalFilename
+  })
+
+  form.once('end', async () => {
+    const uploadOssResult = await uploadToAliOSS(F.newFilename, F.filepath, acl)
+    let resCode: number
+    if (uploadOssResult.success) {
+      resCode = 200
+    } else {
+      resCode = 400
+    }
+    // return
+    res.status(resCode).json({ msg: uploadOssResult.msg, url: uploadOssResult.url })
     return
   })
 
-  // change file path here
-  form.on('fileBegin', (formName: string, file: File) => {
-    console.log('file begin')
+  form.parse(req, (err, fields, files) => {
+    const jsonFiles = JSON.stringify(files)
+    console.log(jsonFiles)
   })
 }
 
