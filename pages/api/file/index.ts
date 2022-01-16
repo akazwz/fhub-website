@@ -2,7 +2,6 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import formidable, { Fields, File, Files } from 'formidable'
 import { runCors } from '../middleware/cors'
 import * as fs from 'fs'
-import { toBase64 } from 'next/dist/shared/lib/to-base-64'
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
   await runCors(req, res)
@@ -47,18 +46,13 @@ const handleUploadFile = async (req: NextApiRequest, res: NextApiResponse) => {
     console.log(formName, file.newFilename)
     const fileBuffer = fs.readFileSync(file.filepath)
     const fileBase64 = fileBuffer.toString('base64')
-    console.log(fileBase64)
+    res.status(200).json({ file: fileBase64 })
+    return
   })
 
   // change file path here
   form.on('fileBegin', (formName: string, file: File) => {
     console.log('file begin')
-  })
-
-  form.once('end', () => {
-    console.log('upload done')
-    res.status(200).json({ 'msg': 'success' })
-    return
   })
 }
 
