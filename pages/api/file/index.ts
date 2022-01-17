@@ -4,12 +4,12 @@ import OSS, { ACLType } from 'ali-oss'
 import * as fs from 'fs'
 import { runCors } from '../middleware/cors'
 import { fileTypeFromFile } from 'file-type'
-import { getBindingIdentifiers } from '@babel/types'
+import { format } from 'date-fns'
 
 const client = new OSS({
   region: 'oss-cn-hangzhou',
-  accessKeyId: 'LTAI5tDaTopVisPZD6scLwte',
-  accessKeySecret: 'LLKe0P8nSBcHaA9nbX4W1uaE4PbGWn',
+  accessKeyId: process.env.accessKeySecret || '',
+  accessKeySecret: process.env.accessKeyId || '',
   bucket: 'akazwz',
 })
 
@@ -67,6 +67,13 @@ export default async function handle (req: NextApiRequest, res: NextApiResponse)
   }
 }
 
+/**
+ * @param req
+ *  formData : {
+ *    sha256, acl, file
+ *  }
+ * @param res
+ */
 const handleUploadFile = async (req: NextApiRequest, res: NextApiResponse) => {
   const form = formidable({
     multiples: false,
@@ -77,6 +84,7 @@ const handleUploadFile = async (req: NextApiRequest, res: NextApiResponse) => {
   let sha256: string
   let acl: ACLType
   let F: File
+  let gotFile: boolean = false
 
   form.on('field', (name: string, value: string) => {
     switch (name) {
@@ -98,8 +106,14 @@ const handleUploadFile = async (req: NextApiRequest, res: NextApiResponse) => {
 
   // get file sha256 file hash
   form.on('file', async (formName: string, file: File) => {
+    // already found one file, return
+    if (gotFile) {
+      return
+    }
     if (formName === 'file') {
+      console.log()
       F = file
+      gotFile = true
     }
   })
 
@@ -108,8 +122,15 @@ const handleUploadFile = async (req: NextApiRequest, res: NextApiResponse) => {
     file.newFilename = file.newFilename + '-' + file.originalFilename
   })
 
+  // form end
   form.once('end', async () => {
-    const uploadOssResult = await uploadToAliOSS(F.newFilename, F.filepath, acl)
+    if (!sha256 || !acl || !F) {
+      res.status(400).json({ msg: 'params error' })
+      return
+    }
+
+    const dateYMD = format(new Date(), 'yyyy-MM-dd')
+    const uploadOssResult = await uploadToAliOSS(dateYMD + '/' + F.newFilename, F.filepath, acl)
     let resCode: number
     if (uploadOssResult.success) {
       resCode = 200
@@ -121,10 +142,7 @@ const handleUploadFile = async (req: NextApiRequest, res: NextApiResponse) => {
     return
   })
 
-  form.parse(req, (err, fields, files) => {
-    const jsonFiles = JSON.stringify(files)
-    console.log(jsonFiles)
-  })
+  form.parse(req, () => {})
 }
 
 const handleDownloadFile = async (req: NextApiRequest, res: NextApiResponse) => {
