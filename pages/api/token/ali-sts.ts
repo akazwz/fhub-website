@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { STS } from 'ali-oss'
-import { runCors } from '../middleware/cors'
+import { runCors } from '../../../src/middleware/cors'
 
 export default async function handle (req: NextApiRequest, res: NextApiResponse) {
   await runCors(req, res)
