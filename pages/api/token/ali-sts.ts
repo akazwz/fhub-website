@@ -18,8 +18,8 @@ export default async function handle (req: NextApiRequest, res: NextApiResponse)
 const handleGetSTS = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const sts = new STS({
-      accessKeyId: process.env.accessKeySecret || '',
-      accessKeySecret: process.env.accessKeyId || '',
+      accessKeyId: process.env.accessKeyID || '',
+      accessKeySecret: process.env.accessKeySecret || '',
     })
 
     const result = await sts.assumeRole('acs:ram::1916322602254226:role/aliyunoss', '', 3600, 'test')
