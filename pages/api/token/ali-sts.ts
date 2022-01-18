@@ -21,7 +21,6 @@ const handleGetSTS = async (req: NextApiRequest, res: NextApiResponse) => {
       accessKeyId: process.env.AK || '',
       accessKeySecret: process.env.AS || '',
     })
-    console.log(process.env.AK)
 
     const result = await sts.assumeRole('acs:ram::1916322602254226:role/aliyunoss', '', 3600, 'test')
     res.status(200).json({
