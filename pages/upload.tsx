@@ -1,23 +1,52 @@
+import { useRef, useState } from 'react'
 import { NextPage } from 'next'
 import {
   Center,
   Flex,
   Heading,
-  Input,
   Button,
-  useColorModeValue, HStack, Box, Spacer,
+  HStack,
+  Box,
+  Spacer,
 } from '@chakra-ui/react'
 import { FileAdditionOne } from '@icon-park/react'
-import { useRef, useState } from 'react'
+import * as qiniu from 'qiniu-js'
+import { QiniuError } from 'qiniu-js'
+import { ISubscriptionLike, PartialObserver } from 'qiniu-js/src/utils/observable'
+import { UploadProgress } from 'qiniu-js/src/upload/base'
 
 const Upload: NextPage = () => {
   const fileInput = useRef<HTMLInputElement>(null)
   const [fileName, setFileName] = useState<string>('')
   const [fileSize, setFileSize] = useState<string>('')
+
+  let subscription: ISubscriptionLike
+
+  const handleFileUpload = () => {
+    const file = fileInput.current!.files![0]
+    const observable = qiniu.upload(file, '', '', {}, {})
+    const observer: PartialObserver<any, any, any> = {
+      next (next: UploadProgress): void {
+        console.log(next)
+      },
+      error (err: QiniuError): void {
+        console.log(err.message)
+      },
+      complete (res: any): void {
+        console.log(res)
+      },
+    }
+    subscription = observable.subscribe(observer)
+  }
+
+  const handleCancelUpload = () => {
+    subscription.unsubscribe()
+  }
+
   return (
     <>
       <Center>
-        <Flex direction="column" textAlign='center'>
+        <Flex direction="column" textAlign="center">
           <Heading mb={6}>Upload File</Heading>
           <input
             id="upload-file"
@@ -25,11 +54,7 @@ const Upload: NextPage = () => {
             type="file"
             hidden
             onChange={(e) => {
-              const files = e.currentTarget.files
-              if (!files) {
-                return
-              }
-              const file = files[0]
+              const file = e.currentTarget!.files![0]
               const fileName = file.name
               const fileSize = file.size
               switch (true) {
@@ -76,7 +101,7 @@ const Upload: NextPage = () => {
             </Box>
             <Spacer/>
             <Box>
-              <Button>
+              <Button onClick={handleFileUpload}>
                 Upload
               </Button>
             </Box>
