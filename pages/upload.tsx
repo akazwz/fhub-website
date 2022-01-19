@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { NextPage } from 'next'
 import {
   Center,
@@ -19,28 +19,68 @@ const Upload: NextPage = () => {
   const fileInput = useRef<HTMLInputElement>(null)
   const [fileName, setFileName] = useState<string>('')
   const [fileSize, setFileSize] = useState<string>('')
+  const [isUploading, setIsUploading] = useState<boolean>(false)
+  const [subscription, setSubscription] = useState<ISubscriptionLike>()
+  const [progressPercent, setProgressPercent] = useState<number>(0)
+  const [token, setToken] = useState<string>('')
 
-  let subscription: ISubscriptionLike
+  useEffect(() => {
+    // get upload token
+    fetch('/api/token/qiniu-upload-token')
+      .then((res) => {
+        res.json().then((data) => {
+          const { uploadToken } = data
+          setToken(uploadToken)
+        })
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  })
 
   const handleFileUpload = () => {
     const file = fileInput.current!.files![0]
-    const observable = qiniu.upload(file, '', '', {}, {})
+    const observable = qiniu.upload(
+      file,
+      fileName,
+      token,
+      {
+        fname: fileName,
+        mimeType: file.type
+      },
+      {
+        checkByServer: true,
+        checkByMD5: true,
+      },
+    )
     const observer: PartialObserver<any, any, any> = {
       next (next: UploadProgress): void {
         console.log(next)
+        setIsUploading(true)
+        setProgressPercent(Number(next.total.percent.toFixed(2)))
       },
       error (err: QiniuError): void {
         console.log(err.message)
+        setIsUploading(false)
       },
       complete (res: any): void {
         console.log(res)
+        setIsUploading(false)
       },
     }
-    subscription = observable.subscribe(observer)
+    const sub = observable.subscribe(observer)
+    setSubscription(sub)
+    if (!subscription) {
+      setIsUploading(true)
+    }
   }
 
   const handleCancelUpload = () => {
+    if (!subscription) {
+      return
+    }
     subscription.unsubscribe()
+    setIsUploading(false)
   }
 
   return (
@@ -91,7 +131,7 @@ const Upload: NextPage = () => {
             </Button>
           </Center>
 
-          <HStack display={fileInput.current === null ? 'none' : 'flex'}>
+          <HStack display={fileSize.length > 0 ? 'flex' : 'none'}>
             <Box>
               {fileName}
             </Box>
@@ -101,8 +141,12 @@ const Upload: NextPage = () => {
             </Box>
             <Spacer/>
             <Box>
-              <Button onClick={handleFileUpload}>
-                Upload
+              {progressPercent + '%'}
+            </Box>
+            <Spacer/>
+            <Box>
+              <Button onClick={isUploading ? handleCancelUpload : handleFileUpload}>
+                {isUploading ? 'Cancel' : 'Upload'}
               </Button>
             </Box>
           </HStack>
