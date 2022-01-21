@@ -8,12 +8,11 @@ export enum Status {
   Finished,
 }
 
-export function useUpload (file: File) {
+export function useUpload (file: File, token: string) {
   const startTimeRef = useRef<number | null>(null)
   const [state, setState] = useState<Status | null>(null)
   const [error, setError] = useState<Error | null>(null)
-  const [token, setToken] = useState<string | null>(null)
-  const [speedPeek, setSpeedPeek] = useState<number | null>(null)
+  const [speedPeak, setSpeedPeak] = useState<number | null>(null)
   const [completeInfo, setCompleteInfo] = useState<any | null>(null)
   const [progress, setProgress] = useState<UploadProgress | null>(null)
   const [observable, setObservable] = useState<ReturnType<typeof upload> | null>(null)
@@ -25,23 +24,24 @@ export function useUpload (file: File) {
     setCompleteInfo(null)
     setProgress(null)
     setError(null)
-  }
 
-  subscribeRef.current = observable?.subscribe({
-    error: (newError: SetStateAction<Error | null>) => {
-      setState(Status.Finished)
-      setError(newError)
-    },
-    next: (newProgress: SetStateAction<UploadProgress | null>) => {
-      setState(Status.Processing)
-      setProgress(newProgress)
-    },
-    complete: (newInfo: any) => {
-      setState(Status.Finished)
-      setError(null)
-      setCompleteInfo(newInfo)
-    }
-  }) || null
+    subscribeRef.current = observable?.subscribe({
+      error: (newError) => {
+        setState(Status.Finished)
+        setError(newError)
+      },
+      next: (newProgress) => {
+        setState(Status.Processing)
+        setProgress(newProgress)
+      },
+      complete: (newInfo) => {
+        setState(Status.Finished)
+        setError(null)
+        setCompleteInfo(newInfo)
+        console.log(newInfo)
+      }
+    }) || null
+  }
 
   // stop upload file
   const stop = () => {
@@ -70,11 +70,23 @@ export function useUpload (file: File) {
       : 0
   }, [progress])
 
-  useEffect(()=>{
+  useEffect(() => {
     setState(Status.Ready)
     if (token != null) {
       setObservable(upload(file, null, token))
     }
   }, [token, file])
 
+  useEffect(() => {
+    if (speed == null) {
+      setSpeedPeak(0)
+      return
+    }
+
+    if (speed > (speedPeak || 0)) {
+      setSpeedPeak(speed)
+    }
+  }, [speed, speedPeak])
+
+  return { start, stop, state, progress, error, completeInfo, speed, speedPeak }
 }
