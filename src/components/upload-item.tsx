@@ -33,8 +33,8 @@ const UploadItem = (props: IProps) => {
         <Td>
           <Button
             onClick={state === Status.Processing ? stop : start}
-            isDisabled={state === Status.Finished}>
-            {state === Status.Processing ? 'Cancel' : 'Upload'}
+          >
+            {state === Status.Processing ? 'Pause' : 'Upload'}
           </Button>
         </Td>
       </Tr>
