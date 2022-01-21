@@ -1,5 +1,5 @@
 import { Status, useUpload } from '../hooks/upload'
-import { Button, Progress, Td, Tr } from '@chakra-ui/react'
+import { Button, Progress, Td, Text, Tr } from '@chakra-ui/react'
 
 interface IProps {
   file: File,
@@ -21,13 +21,15 @@ const UploadItem = (props: IProps) => {
   return (
     <>
       <Tr>
-        <Td>{props.file.name}</Td>
-        <Td>{state}</Td>
+        <Td sx={{ maxW: '30vw' }}>{props.file.name}</Td>
+        <Td>{state === Status.Ready ? 'Ready' : state === Status.Processing ? 'Progressing' : 'Finished'}</Td>
         <Td>
-          <Progress value={progress?.total.percent}/>
+          <Progress hasStripe isAnimated={state === Status.Processing} value={progress?.total.percent}/>
+          <Text textAlign="center">
+            {progress?.total.percent.toFixed(2).concat('%') ?? '0%'}
+          </Text>
         </Td>
-        <Td>{speed}</Td>
-        <Td>{speedPeak}</Td>
+        <Td>{speed / 1000 + 'kb/s'}</Td>
         <Td>
           <Button
             onClick={state === Status.Processing ? stop : start}

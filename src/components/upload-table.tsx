@@ -26,7 +26,6 @@ const UploadTable = (props: IProps) => {
             <Th>Status</Th>
             <Th>Progress</Th>
             <Th>Speed</Th>
-            <Th>SpeedPeak</Th>
             <Th>Options</Th>
           </Tr>
         </Thead>
