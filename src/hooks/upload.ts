@@ -1,6 +1,6 @@
 import { upload } from 'qiniu-js'
 import { UploadProgress } from 'qiniu-js/esm/upload'
-import { SetStateAction, useMemo, useRef, useState } from 'react'
+import { SetStateAction, useEffect, useMemo, useRef, useState } from 'react'
 
 export enum Status {
   Ready,
@@ -69,4 +69,12 @@ export function useUpload (file: File) {
       ? Math.floor(progress.total.loaded / duration)
       : 0
   }, [progress])
+
+  useEffect(()=>{
+    setState(Status.Ready)
+    if (token != null) {
+      setObservable(upload(file, null, token))
+    }
+  }, [token, file])
+
 }
