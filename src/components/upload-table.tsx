@@ -4,7 +4,7 @@ import {
   Tbody,
   Tr,
   Th,
-  TableCaption,
+  TableCaption, List,
 } from '@chakra-ui/react'
 import UploadItem from './upload-item'
 
@@ -17,25 +17,11 @@ const UploadTable = (props: IProps) => {
   console.log(props.fileList)
   console.log(props.token)
   return (
-    <>
-      <Table size="sm">
-        <TableCaption placement="top">Chosen Files</TableCaption>
-        <Thead>
-          <Tr>
-            <Th>FileName</Th>
-            <Th>Status</Th>
-            <Th>Progress</Th>
-            <Th>Speed</Th>
-            <Th>Options</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {props.fileList.map((file) => (
-            <UploadItem key={file.name} file={file} token={props.token}/>
-          ))}
-        </Tbody>
-      </Table>
-    </>
+    <List>
+      {props.fileList.map((file) => (
+        <UploadItem key={file.name} file={file} token={props.token}/>
+      ))}
+    </List>
   )
 }
 
