@@ -38,14 +38,16 @@ export const Feature = () => {
 
   ]
   return (
-    <Box as="section" maxW="5xl" mx="auto" py="12" px={{ base: '6', md: '8' }}>
-      <SimpleGrid columns={{ base: 1, md: 2 }} spacingX="10" spacingY={{ base: '8', md: '14' }}>
-        {features.map((item, index) => (
-          <FeatureItem key={index} title={item.title} icon={item.icon}>
-            {item.content}
-          </FeatureItem>
-        ))}
-      </SimpleGrid>
+    <Box>
+      <Box as="section" maxW="5xl" mx="auto" py="12" px={{ base: '6', md: '8' }}>
+        <SimpleGrid columns={{ base: 1, md: 2 }} spacingX="10" spacingY={{ base: '8', md: '14' }}>
+          {features.map((item, index) => (
+            <FeatureItem key={index} title={item.title} icon={item.icon}>
+              {item.content}
+            </FeatureItem>
+          ))}
+        </SimpleGrid>
+      </Box>
     </Box>
   )
 }
