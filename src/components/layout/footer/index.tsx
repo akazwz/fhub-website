@@ -1,6 +1,6 @@
 import { Box, Stack } from '@chakra-ui/react'
 import { Copyright } from './Copyright'
-import { Logo } from './Logo'
+import { Logo } from '../logo'
 import { SocialMediaLinks } from './SocialMediaLinks'
 
 export const Footer = () => (

@@ -1,4 +1,5 @@
-import { Box, Stack } from '@chakra-ui/react'
+import { Box } from '@chakra-ui/react'
+import { Logo } from '../logo'
 
 export const Header = () => {
   return (
@@ -10,7 +11,7 @@ export const Header = () => {
       py="3"
       px={{ base: '4', md: '8' }}
     >
-      Header
+      <Logo/>
     </Box>
   )
 }
