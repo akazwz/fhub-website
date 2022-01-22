@@ -1,5 +1,6 @@
-import { Box } from '@chakra-ui/react'
+import { Box, HStack, Spacer } from '@chakra-ui/react'
 import { Logo } from '../logo'
+import { ColorModeToggle } from './ColorModeToggle'
 
 export const Header = () => {
   return (
@@ -11,7 +12,11 @@ export const Header = () => {
       py="3"
       px={{ base: '4', md: '8' }}
     >
-      <Logo/>
+      <HStack>
+        <Logo/>
+        <Spacer/>
+        <ColorModeToggle/>
+      </HStack>
     </Box>
   )
 }
