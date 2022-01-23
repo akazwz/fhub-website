@@ -9,14 +9,14 @@ import {
 
 export const CallToAction = () => {
   return (
-    <Flex justifyContent="center" >
+    <Flex justifyContent="center">
       <Stack
         direction={{ base: 'column', md: 'row' }}
         alignItems="center"
         spacing="50"
-        maxW='5xl'
+        maxW="5xl"
       >
-        <VStack spacing="30" m='10'>
+        <VStack spacing="30" m="10">
           <Heading
             bgGradient="linear(to-l, #7928CA, #FF0080)"
             bgClip="text"
@@ -29,7 +29,7 @@ export const CallToAction = () => {
             mt="4"
             fontSize="lg"
           >
-            FHub is the file hub of yourself. It`s open source and free, no speed limits,
+            FHub is the file hub of yourself. It&rsquo;s open source and free, no speed limits,
             both have public and private zone, Up to 1 TB storage for free!
           </Text>
           <Button
