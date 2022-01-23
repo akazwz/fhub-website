@@ -11,7 +11,7 @@ export const Logo = () => {
         fill={[useColorModeValue(black, white), '#2F88FF']}
       />
       <Text
-        bgGradient="linear(to-l,  #FF0080, #7928CA)"
+        bgGradient="linear(to-r,  #FF0080, #00B0FF)"
         bgClip="text"
         fontSize="3xl"
         fontWeight="extrabold"

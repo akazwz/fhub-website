@@ -11,7 +11,7 @@ import { QuoteIcon } from './QuoteIcon'
 
 export const Quotee = () => (
   <Box as="section" bg={useColorModeValue('gray.50', 'gray.800')}>
-    <Box maxW="3xl" mx="auto" px={{ base: '6', md: '8' }} pt="12" pb="16">
+    <Box maxW="3xl" mx="auto" px={{ base: '6', md: '8' }} pt="7" pb="16">
       <Flex direction="column" align="center" textAlign="center">
         <QuoteIcon
           color={useColorModeValue('gray.300', 'gray.600')}
