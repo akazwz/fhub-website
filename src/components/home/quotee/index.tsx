@@ -20,7 +20,7 @@ export const Quotee = () => (
         <Text fontSize={{ base: 'xl', md: '2xl' }} fontWeight="medium" mt="6">
           &ldquo;FHub is amazing! It is totally free and open source, how and where the file storage is
           transparency. And I can own my file, manage my file, enjoy and share my file! As the FHub name,
-          FHub not only the file hub but also the future hub!&rdquo;
+          FHub is not only the file hub but also the future hub!&rdquo;
         </Text>
         <Quote
           name="AKAZWZ"
