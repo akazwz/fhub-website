@@ -7,7 +7,7 @@ export const Logo = () => {
     <HStack spacing={3}>
       <CloudStorage theme="two-tone" size="37px" fill={[useColorModeValue(black, white), '#2F88FF']}/>
       <Text fontSize="30px">
-        File Server
+        FHub
       </Text>
     </HStack>
   )
