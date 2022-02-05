@@ -8,9 +8,11 @@ import {
   Image,
 } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
+import { useAuth } from '../../hooks/useAuth'
 
 export const Hero = () => {
   const router = useRouter()
+  const { isAuth } = useAuth()
   return (
     <Container maxW={'5xl'}>
       <Stack
@@ -43,7 +45,10 @@ export const Hero = () => {
             colorScheme="blue"
             size="lg"
             m="5"
-            onClick={() => {router.push('/files', '/files', { locale: router.locale }).then()}}
+            onClick={() => {
+              router.push(isAuth ? '/files' : '/login', isAuth ? '/files' : '/login', { locale: router.locale }).then()
+            }
+            }
           >
             GET STARTED
           </Button>

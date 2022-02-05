@@ -1,6 +1,6 @@
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { upload } from 'qiniu-js'
 import { UploadProgress } from 'qiniu-js/esm/upload'
-import { SetStateAction, useEffect, useMemo, useRef, useState } from 'react'
 
 export enum Status {
   Ready,

@@ -11,6 +11,7 @@ import { PdfIcon } from '../src/components/files/icons/PdfIcon'
 import { TextIcon } from '../src/components/files/icons/TextIcon'
 import { OtherIcon } from '../src/components/files/icons/OtherIcon'
 import { Layout } from '../src/components/layout'
+import { useAuth } from '../src/hooks/useAuth'
 
 interface CloudFile {
   key: string,
@@ -78,23 +79,23 @@ const isTextFile = (filePath: string): boolean => {
 const fileIcon = (filePath: string): ReactElement => {
   switch (true) {
     case isVideoFile(filePath):
-      return <VideoIcon fontSize={50}/>
+      return <VideoIcon fontSize={37}/>
     case isAudioFile(filePath):
-      return <MusicIcon fontSize={50}/>
+      return <MusicIcon fontSize={37}/>
     case isImageFile(filePath):
-      return <ImageIcon fontSize={50}/>
+      return <ImageIcon fontSize={37}/>
     case isDocFile(filePath):
-      return <DocIcon fontSize={50}/>
+      return <DocIcon fontSize={37}/>
     case isExcelFile(filePath):
-      return <ExcelIcon fontSize={50}/>
+      return <ExcelIcon fontSize={37}/>
     case isPptFile(filePath):
-      return <PptIcon fontSize={50}/>
+      return <PptIcon fontSize={37}/>
     case isPdfFile(filePath):
-      return <PdfIcon fontSize={50}/>
+      return <PdfIcon fontSize={37}/>
     case isTextFile(filePath):
-      return <TextIcon fontSize={50}/>
+      return <TextIcon fontSize={37}/>
     default:
-      return <OtherIcon fontSize={50}/>
+      return <OtherIcon fontSize={37}/>
   }
 }
 
@@ -105,7 +106,7 @@ const fileName = (key: string) => {
     name = name.substr(0, 5) + '...' + name.substr(name.length - 3)
   }
   return (
-    <Text>
+    <Text fontSize={'sm'}>
       {name + '.' + ext}
     </Text>
   )
@@ -130,7 +131,7 @@ const fileSize = (size: number) => {
       value = size.toFixed(2) + 'b'
   }
   return (
-    <Text fontWeight={'light'}>
+    <Text fontWeight={'light'} fontSize={'smaller'}>
       {value}
     </Text>
   )
@@ -148,7 +149,15 @@ const filePreview = (cloudFile: CloudFile) => {
 
 const Files: NextPage = () => {
   const bg = useColorModeValue('blue.100', 'blue.900')
-
+  /*auth*/
+  const { isAuth } = useAuth()
+  if (!isAuth) {
+    return (
+      <Layout>
+        Not Auth Now
+      </Layout>
+    )
+  }
   const files: CloudFile[] = [
     { key: 'testtttttttttt.mp4', size: 3000 },
     { key: 'test.mp3', size: 30000000 },
@@ -160,14 +169,14 @@ const Files: NextPage = () => {
     { key: 'test.png', size: 3000 },
     { key: 'test.txt', size: 3000 },
     { key: 'test.mp4', size: 3000 },
-    { key: 'test.mp3', size: 3000 },
+    { key: 'test111.mp3', size: 3000 },
   ]
 
   const fileList = files.map((file) => {
     return (
       <Box
         key={file.key}
-        w={'120px'}
+        w={'100px'}
         bg={bg}
         rounded={'md'}
         p={3}
@@ -181,8 +190,8 @@ const Files: NextPage = () => {
     <Layout>
       <Container maxW={'5xl'}>
         <Grid
-          templateColumns={'repeat(auto-fill, minmax(120px, 1fr))'}
-          autoRows={'minmax(120px, auto)'}
+          templateColumns={'repeat(auto-fill, minmax(100px, 1fr))'}
+          autoRows={'minmax(100px, auto)'}
           gap={3}
           padding={3}
         >
