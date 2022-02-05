@@ -5,11 +5,12 @@ import {
   Stack,
   Text,
   Button,
-  Icon,
-  IconProps, Image, Box,
+  Image,
 } from '@chakra-ui/react'
+import { useRouter } from 'next/router'
 
 export const Hero = () => {
+  const router = useRouter()
   return (
     <Container maxW={'5xl'}>
       <Stack
@@ -41,7 +42,8 @@ export const Hero = () => {
             rounded={'full'}
             colorScheme="blue"
             size="lg"
-            m='5'
+            m="5"
+            onClick={() => {router.push('/files', '/files', { locale: router.locale }).then()}}
           >
             GET STARTED
           </Button>
