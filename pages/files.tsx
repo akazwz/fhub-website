@@ -1,7 +1,7 @@
-import { NextPage } from 'next'
-import { VStack, Text, Box, Container, Grid, useColorModeValue, Center, } from '@chakra-ui/react'
-import { VideoIcon } from '../src/components/files/icons/VideoIcon'
 import { ReactElement } from 'react'
+import { NextPage } from 'next'
+import { VStack, Text, Box, Container, Grid, useColorModeValue, } from '@chakra-ui/react'
+import { VideoIcon } from '../src/components/files/icons/VideoIcon'
 import { MusicIcon } from '../src/components/files/icons/MusicIcon'
 import { ImageIcon } from '../src/components/files/icons/ImageIcon'
 import { DocIcon } from '../src/components/files/icons/DocIcon'
@@ -112,7 +112,7 @@ const fileName = (key: string) => {
 }
 
 const fileSize = (size: number) => {
-  let value = ''
+  let value: string
   switch (true) {
     /*kb*/
     case size > 1024 && size < 1024 * 1024:

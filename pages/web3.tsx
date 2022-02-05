@@ -1,7 +1,7 @@
-import { NextPage } from 'next'
-import { useWeb3Storage } from '../src/hooks/useWeb3Storage'
-import { VStack, Button, Text, } from '@chakra-ui/react'
 import { useState } from 'react'
+import { NextPage } from 'next'
+import { VStack, Button, Text, } from '@chakra-ui/react'
+import { useWeb3Storage } from '../src/hooks/useWeb3Storage'
 
 const Web3: NextPage = () => {
   const [filesList, setFilesList] = useState<File[]>([])
