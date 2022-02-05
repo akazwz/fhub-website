@@ -30,7 +30,7 @@ export const Quotee = () => (
         />
       </Flex>
       <HStack justify="center" spacing="4" mt="8" color={useColorModeValue('gray.300', 'gray.600')}>
-        <Circle w="3" h="3" bg="blue.500"/>
+        <Circle size={3} bg="blue.500"/>
       </HStack>
     </Box>
   </Box>
