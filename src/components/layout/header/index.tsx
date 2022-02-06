@@ -1,10 +1,12 @@
-import { Box, Button, HStack, Spacer } from '@chakra-ui/react'
+import { Box, Button, HStack, HTMLChakraProps, chakra, Spacer, useColorModeValue, Link, Text } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { Logo } from '../logo'
 import { ColorModeToggle } from './ColorModeToggle'
 import { useAuth, useAuthValue } from '../../../hooks/useAuth'
+import { useEffect, useRef, useState } from 'react'
+import { useViewportScroll } from 'framer-motion'
 
-export const Header = () => {
+export const HeaderContent = () => {
   const { login, logout } = useAuth()
   const router = useRouter()
 
@@ -20,16 +22,18 @@ export const Header = () => {
 
   return (
     <Box
-      as="header"
-      role="contentinfo"
       mx="auto"
-      maxW="7xl"
       py="3"
       px={{ base: '4', md: '8' }}
     >
       <HStack>
         <Logo/>
         <Spacer/>
+        <Link href={'/files'}>
+          <Text fontSize={20} ml={3} mr={3}>
+            Files
+          </Text>
+        </Link>
         <Button
           colorScheme="blue"
           variant={useAuthValue('outline', 'solid')}
@@ -40,5 +44,37 @@ export const Header = () => {
         <ColorModeToggle/>
       </HStack>
     </Box>
+  )
+}
+
+export const Header = (props: HTMLChakraProps<'header'>) => {
+  const bg = useColorModeValue('white', 'gray.800')
+  const ref = useRef<HTMLHeadingElement | null>(null)
+  const [y, setY] = useState(0)
+  const { height = 0 } = ref.current?.getBoundingClientRect() ?? {}
+
+  const { scrollY } = useViewportScroll()
+  useEffect(() => {
+    return scrollY.onChange(() => setY(scrollY.get()))
+  }, [scrollY])
+
+  return (
+    <chakra.header
+      ref={ref}
+      shadow={y > height ? 'sm' : undefined}
+      transition="box-shadow 0.2s, background-color 0.2s"
+      pos="sticky"
+      top="0"
+      zIndex="3"
+      bg={bg}
+      left="0"
+      right="0"
+      width="full"
+      {...props}
+    >
+      <chakra.div height="4.5rem" mx="auto" maxW="7xl">
+        <HeaderContent/>
+      </chakra.div>
+    </chakra.header>
   )
 }
