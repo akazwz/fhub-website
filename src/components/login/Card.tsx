@@ -7,7 +7,7 @@ export const Card = (props: BoxProps) => (
     py="8"
     px={{ base: '4', md: '10' }}
     shadow="base"
-    rounded={{ sm: 'lg' }}
+    rounded={'lg'}
     {...props}
   />
 )

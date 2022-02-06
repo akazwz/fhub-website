@@ -186,7 +186,7 @@ const Files: NextPage = () => {
           <Button
             colorScheme="orange"
             size="lg"
-            w={'sm'}
+            w={'xs'}
             fontSize="md"
             onClick={() => {router.push('/login', '/login', { locale: router.locale }).then()}}
           >
