@@ -41,7 +41,7 @@ export const LoginForm = (props: HTMLChakraProps<'form'>) => {
         // your login logic here
         console.log(email + ':' + password)
         login(email + password)
-        router.push('/account', '/account', { locale: router.locale }).then()
+        router.push('/dashboard', '/dashboard', { locale: router.locale }).then()
       }}
       {...props}
     >

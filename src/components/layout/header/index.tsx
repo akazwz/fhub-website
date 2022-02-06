@@ -28,11 +28,11 @@ export const HeaderContent = () => {
       <HStack>
         <Logo/>
         <Spacer/>
-        <Link href={'/files'}>
+        {/*<Link href={'/files'}>
           <Text fontSize={20} ml={3} mr={3}>
             Files
           </Text>
-        </Link>
+        </Link>*/}
         <Button
           colorScheme="blue"
           variant={useAuthValue('outline', 'solid')}
