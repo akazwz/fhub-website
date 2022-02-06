@@ -1,6 +1,19 @@
 import { ReactElement } from 'react'
 import { NextPage } from 'next'
-import { VStack, Text, Box, Container, Grid, useColorModeValue, } from '@chakra-ui/react'
+import { useRouter } from 'next/router'
+import {
+  VStack,
+  Text,
+  Box,
+  Container,
+  Grid,
+  Image,
+  Flex,
+  Button,
+  Stack,
+  Heading,
+  useColorModeValue,
+} from '@chakra-ui/react'
 import { VideoIcon } from '../src/components/files/icons/VideoIcon'
 import { MusicIcon } from '../src/components/files/icons/MusicIcon'
 import { ImageIcon } from '../src/components/files/icons/ImageIcon'
@@ -149,15 +162,41 @@ const filePreview = (cloudFile: CloudFile) => {
 
 const Files: NextPage = () => {
   const bg = useColorModeValue('blue.100', 'blue.900')
+  const router = useRouter()
   /*auth*/
   const { isAuth } = useAuth()
   if (!isAuth) {
     return (
       <Layout>
-        Not Auth Now
+        <Stack
+          minH={'70vh'}
+          spacing={10}
+          flexDirection={'column'}
+          alignItems={'center'}
+          justifyContent={'center'}
+        >
+          <Flex
+            maxW={{ base: 'sm', md: '2xl' }}
+          >
+            <Image src="/login.svg" alt="login"/>
+          </Flex>
+          <Heading>
+            Not Login
+          </Heading>
+          <Button
+            colorScheme="orange"
+            size="lg"
+            w={'sm'}
+            fontSize="md"
+            onClick={() => {router.push('/login', '/login', { locale: router.locale }).then()}}
+          >
+            Login First
+          </Button>
+        </Stack>
       </Layout>
     )
   }
+
   const files: CloudFile[] = [
     { key: 'testtttttttttt.mp4', size: 3000 },
     { key: 'test.mp3', size: 30000000 },
