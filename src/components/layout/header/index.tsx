@@ -1,7 +1,7 @@
 import { Box, Button, HStack, HTMLChakraProps, chakra, Spacer, useColorModeValue, Link, Text } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { Logo } from '../logo'
-import { ColorModeToggle } from './ColorModeToggle'
+import { ColorModeToggle } from '../../color-mode-toggle'
 import { useAuth, useAuthValue } from '../../../hooks/useAuth'
 import { useEffect, useRef, useState } from 'react'
 import { useViewportScroll } from 'framer-motion'

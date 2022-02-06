@@ -1,8 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
+import { useRecoilState, useRecoilValue } from 'recoil'
+import { isAuthState, tokenState } from '../state/user_state'
 
 export function useAuth () {
-  const [isAuth, setIsAuth] = useState<boolean>(false)
-  const [token, setToken] = useState<string | null>(null)
+  const [token, setToken] = useRecoilState(tokenState)
+  const isAuth = useRecoilValue(isAuthState)
 
   /*init*/
   useEffect(() => {
@@ -10,25 +12,22 @@ export function useAuth () {
     if (tokenLocal) {
       setToken(tokenLocal)
     }
-    setIsAuth(!!tokenLocal)
-  }, [])
+  }, [setToken])
 
-  const logout = () => {
+  const setStateLogout = () => {
     localStorage.removeItem('token')
     setToken(null)
-    setIsAuth(false)
   }
 
-  const login = (token: string) => {
+  const setStateLogin = (token: string) => {
     localStorage.setItem('token', token)
     setToken(token)
-    setIsAuth(true)
   }
   return {
     isAuth,
     token,
-    login,
-    logout,
+    setStateLogin,
+    setStateLogout,
   }
 }
 
