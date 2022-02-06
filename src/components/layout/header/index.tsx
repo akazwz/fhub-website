@@ -1,4 +1,6 @@
-import { 
+import { useEffect, useRef, useState } from 'react'
+import { useRouter } from 'next/router'
+import {
   Box,
   Button,
   HStack,
@@ -7,12 +9,10 @@ import {
   useColorModeValue,
   HTMLChakraProps,
 } from '@chakra-ui/react'
-import { useRouter } from 'next/router'
+import { useViewportScroll } from 'framer-motion'
 import { Logo } from '../logo'
 import { ColorModeToggle } from '../../color-mode-toggle'
 import { useAuth, useAuthValue } from '../../../hooks/useAuth'
-import { useEffect, useRef, useState } from 'react'
-import { useViewportScroll } from 'framer-motion'
 
 export const HeaderContent = () => {
   const { setStateLogout } = useAuth()
