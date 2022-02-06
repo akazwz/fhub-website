@@ -1,5 +1,4 @@
 import { ChangeEvent, useState } from 'react'
-import { useRouter } from 'next/router'
 import {
   Button,
   chakra,
@@ -15,9 +14,7 @@ import { PasswordField } from './PasswordField'
 export const LoginForm = (props: HTMLChakraProps<'form'>) => {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
-
   const { setStateLogin } = useAuth()
-  const router = useRouter()
 
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value
@@ -38,7 +35,6 @@ export const LoginForm = (props: HTMLChakraProps<'form'>) => {
           return
         }
         setStateLogin(email)
-        router.push('/dashboard', '/dashboard', { locale: router.locale }).then()
       }}
       {...props}
     >

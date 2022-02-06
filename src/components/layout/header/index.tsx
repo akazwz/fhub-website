@@ -1,4 +1,12 @@
-import { Box, Button, HStack, HTMLChakraProps, chakra, Spacer, useColorModeValue, Link, Text } from '@chakra-ui/react'
+import { 
+  Box,
+  Button,
+  HStack,
+  chakra,
+  Spacer,
+  useColorModeValue,
+  HTMLChakraProps,
+} from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { Logo } from '../logo'
 import { ColorModeToggle } from '../../color-mode-toggle'
@@ -7,7 +15,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useViewportScroll } from 'framer-motion'
 
 export const HeaderContent = () => {
-  const { logout } = useAuth()
+  const { setStateLogout } = useAuth()
   const router = useRouter()
 
   const handleLogin = () => {
@@ -15,7 +23,7 @@ export const HeaderContent = () => {
   }
 
   const handleLogout = () => {
-    logout()
+    setStateLogout()
     router.push('/login', '/login', { locale: router.locale }).then()
   }
 
