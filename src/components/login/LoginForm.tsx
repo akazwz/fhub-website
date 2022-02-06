@@ -1,23 +1,22 @@
+import { ChangeEvent, useState } from 'react'
+import { useRouter } from 'next/router'
 import {
   Button,
   chakra,
   FormControl,
   FormLabel,
-  HTMLChakraProps,
   Input,
   Stack,
+  HTMLChakraProps,
 } from '@chakra-ui/react'
-import * as React from 'react'
-import { PasswordField } from './PasswordField'
-import { ChangeEvent, useState } from 'react'
 import { useAuth } from '../../hooks/useAuth'
-import { useRouter } from 'next/router'
+import { PasswordField } from './PasswordField'
 
 export const LoginForm = (props: HTMLChakraProps<'form'>) => {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
 
-  const { login } = useAuth()
+  const { setStateLogin } = useAuth()
   const router = useRouter()
 
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -38,9 +37,7 @@ export const LoginForm = (props: HTMLChakraProps<'form'>) => {
           alert('password length must < 6')
           return
         }
-        // your login logic here
-        console.log(email + ':' + password)
-        login(email + password)
+        setStateLogin(email)
         router.push('/dashboard', '/dashboard', { locale: router.locale }).then()
       }}
       {...props}
