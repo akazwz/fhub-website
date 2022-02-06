@@ -1,15 +1,77 @@
 import { useEffect, useRef, useState } from 'react'
+import { useRouter } from 'next/router'
 import {
   chakra,
   Box,
   HStack,
   Spacer,
+  Menu,
+  MenuButton,
+  Avatar,
+  IconButton,
+  MenuList,
+  MenuGroup,
+  VStack,
+  Text,
+  Button,
+  MenuDivider,
+  Center,
   HTMLChakraProps,
   useColorModeValue,
 } from '@chakra-ui/react'
-
-import { ColorModeToggle } from '../../../color-mode-toggle'
 import { useViewportScroll } from 'framer-motion'
+import { ColorModeToggle } from '../../../color-mode-toggle'
+import { useAuth } from '../../../../hooks/useAuth'
+
+const ProfileMenu = () => {
+  const { token, setStateLogout } = useAuth()
+  const router = useRouter()
+
+  const handleLogout = () => {
+    setStateLogout()
+    router.push('/login', undefined, { locale: router.locale }).then()
+  }
+
+  return (
+    <Menu>
+      <MenuButton
+        as={IconButton}
+        rounded={'full'}
+      >
+        <Avatar
+          name="Dan Abrahmov"
+          src="https://bit.ly/dan-abramov"
+          size={'sm'}
+        />
+      </MenuButton>
+      <MenuList p={5}>
+        <MenuGroup>
+          <VStack spacing={3}>
+            <Avatar
+              name="Dan Abrahmov"
+              src="https://bit.ly/dan-abramov"
+              size={'xl'}
+            />
+            <Text>
+              {token}
+            </Text>
+          </VStack>
+        </MenuGroup>
+        <MenuDivider/>
+        <MenuGroup>
+          <Center>
+            <Button
+              variant={'outline'}
+              onClick={handleLogout}
+            >
+              Logout
+            </Button>
+          </Center>
+        </MenuGroup>
+      </MenuList>
+    </Menu>
+  )
+}
 
 export const DashboardHeaderContent = () => {
   return (
@@ -21,6 +83,7 @@ export const DashboardHeaderContent = () => {
       <HStack>
         <Spacer/>
         <ColorModeToggle/>
+        <ProfileMenu/>
       </HStack>
     </Box>
   )

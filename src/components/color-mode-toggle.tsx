@@ -35,6 +35,7 @@ export const ColorModeToggle = () => {
         color="current"
         onClick={handleToggleColorMode}
         icon={SwitchIcon}
+        rounded={'full'}
       />
     </>
   )

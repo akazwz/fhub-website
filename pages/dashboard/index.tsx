@@ -1,9 +1,9 @@
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { useAuth } from '../src/hooks/useAuth'
-import { DashBoardLayout } from '../src/components/dashboard/layout'
+import { useAuth } from '../../src/hooks/useAuth'
+import { DashBoardLayout } from '../../src/components/dashboard/layout'
 
-const Dashboard = () => {
+const Index = () => {
   const { isReady, isAuth } = useAuth()
   const router = useRouter()
 
@@ -32,4 +32,4 @@ const Dashboard = () => {
   )
 }
 
-export default Dashboard
+export default Index

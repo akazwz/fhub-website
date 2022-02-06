@@ -1,32 +1,19 @@
 import { useEffect, useRef, useState } from 'react'
-import { useRouter } from 'next/router'
 import {
   Box,
-  Button,
+  Link,
   HStack,
   chakra,
   Spacer,
+  Text,
   useColorModeValue,
   HTMLChakraProps,
 } from '@chakra-ui/react'
 import { useViewportScroll } from 'framer-motion'
 import { Logo } from '../logo'
 import { ColorModeToggle } from '../../color-mode-toggle'
-import { useAuth, useAuthValue } from '../../../hooks/useAuth'
 
 export const HeaderContent = () => {
-  const { setStateLogout } = useAuth()
-  const router = useRouter()
-
-  const handleLogin = () => {
-    router.push('/login', '/login', { locale: router.locale }).then()
-  }
-
-  const handleLogout = () => {
-    setStateLogout()
-    router.push('/login', '/login', { locale: router.locale }).then()
-  }
-
   return (
     <Box
       mx="auto"
@@ -36,18 +23,11 @@ export const HeaderContent = () => {
       <HStack>
         <Logo/>
         <Spacer/>
-        {/*<Link href={'/files'}>
+        <Link href={'/login'}>
           <Text fontSize={20} ml={3} mr={3}>
-            Files
+            login
           </Text>
-        </Link>*/}
-        <Button
-          colorScheme="blue"
-          variant={useAuthValue('outline', 'solid')}
-          onClick={useAuthValue(handleLogout, handleLogin)}
-        >
-          {useAuthValue('Logout', 'Login')}
-        </Button>
+        </Link>
         <ColorModeToggle/>
       </HStack>
     </Box>
