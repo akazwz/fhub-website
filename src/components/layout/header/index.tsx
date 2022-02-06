@@ -7,12 +7,11 @@ import { useEffect, useRef, useState } from 'react'
 import { useViewportScroll } from 'framer-motion'
 
 export const HeaderContent = () => {
-  const { login, logout } = useAuth()
+  const { logout } = useAuth()
   const router = useRouter()
 
   const handleLogin = () => {
-    login('test_token')
-    router.push('/account', '/account', { locale: router.locale }).then()
+    router.push('/login', '/login', { locale: router.locale }).then()
   }
 
   const handleLogout = () => {
