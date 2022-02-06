@@ -28,8 +28,6 @@ export const ColorModeToggle = () => {
   return (
     <>
       <IconButton
-        size="md"
-        fontSize="lg"
         aria-label={`Switch to ${text} mode`}
         variant="ghost"
         color="current"

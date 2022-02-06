@@ -1,10 +1,6 @@
-import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
 import {
-  chakra,
-  Box,
   HStack,
-  Spacer,
   Menu,
   MenuButton,
   Avatar,
@@ -16,12 +12,14 @@ import {
   Button,
   MenuDivider,
   Center,
-  HTMLChakraProps,
+  Flex,
+  FlexProps,
   useColorModeValue,
 } from '@chakra-ui/react'
-import { useViewportScroll } from 'framer-motion'
+import { FiMenu } from 'react-icons/fi'
 import { ColorModeToggle } from '../../../color-mode-toggle'
 import { useAuth } from '../../../../hooks/useAuth'
+import SettingDrawer from './SettingDrawer'
 
 const ProfileMenu = () => {
   const { token, setStateLogout } = useAuth()
@@ -73,50 +71,45 @@ const ProfileMenu = () => {
   )
 }
 
-export const DashboardHeaderContent = () => {
-  return (
-    <Box
-      mx="auto"
-      py="3"
-      px={{ base: '4', md: '8' }}
-    >
-      <HStack>
-        <Spacer/>
-        <ColorModeToggle/>
-        <ProfileMenu/>
-      </HStack>
-    </Box>
-  )
+interface IProps extends FlexProps {
+  onOpen: () => void;
 }
 
-export const DashBoardHeader = (props: HTMLChakraProps<'header'>) => {
-  const ref = useRef<HTMLHeadingElement | null>(null)
-  const bg = useColorModeValue('white', 'gray.800')
-  const [y, setY] = useState(0)
-  const { height = 0 } = ref.current?.getBoundingClientRect() ?? {}
-
-  const { scrollY } = useViewportScroll()
-  useEffect(() => {
-    return scrollY.onChange(() => setY(scrollY.get()))
-  }, [scrollY])
-
+export const DashBoardHeader = ({ onOpen, ...rest }: IProps) => {
   return (
-    <chakra.header
-      ref={ref}
-      shadow={y > height ? 'sm' : undefined}
-      transition="box-shadow 0.2s, background-color 0.2s"
-      pos="sticky"
-      top="0"
-      zIndex="3"
-      bg={bg}
-      left="0"
-      right="0"
-      width="full"
-      {...props}
+    <Flex
+      ml={{ base: 0, md: 60 }}
+      px={{ base: 4, md: 4 }}
+      height="20"
+      alignItems="center"
+      bg={useColorModeValue('white', 'grey.900')}
+      borderBottomWidth="1px"
+      borderBottomColor={useColorModeValue('grey.200', 'grey.700')}
+      justifyContent={{ base: 'space-between', md: 'flex-end' }}
+      {...rest}
     >
-      <chakra.div height="4.5rem" mx="auto" maxW="7xl">
-        <DashboardHeaderContent/>
-      </chakra.div>
-    </chakra.header>
+      <IconButton
+        aria-label={'open menu'}
+        display={{ base: 'flex', md: 'none' }}
+        onClick={onOpen}
+        variant="outline"
+        icon={<FiMenu/>}
+      />
+
+      <Text
+        display={{ base: 'flex', md: 'none' }}
+        fontSize="2xl"
+        fontFamily="monospace"
+        fontWeight="bold"
+      >
+        Logo
+      </Text>
+
+      <HStack spacing={{ base: 1, md: 6 }}>
+        <ColorModeToggle/>
+        <SettingDrawer/>
+        <ProfileMenu/>
+      </HStack>
+    </Flex>
   )
 }
