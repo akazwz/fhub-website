@@ -1,34 +1,26 @@
 import { ReactText } from 'react'
-import { IconType } from 'react-icons'
-import {
-  FiCompass,
-  FiHome,
-  FiSettings,
-  FiStar,
-  FiTrendingUp,
-} from 'react-icons/fi'
-import { Flex, FlexProps, Icon, Link } from '@chakra-ui/react'
-
+import IconPark from '@icon-park/react/es/all'
+import { Box, Flex, FlexProps, Link } from '@chakra-ui/react'
 
 interface LinkItemProps {
   name: string
-  icon: IconType
+  iconName: string
 }
 
 const LinkItems: Array<LinkItemProps> = [
-  { name: 'Home', icon: FiHome },
-  { name: 'Trending', icon: FiTrendingUp },
-  { name: 'Explore', icon: FiCompass },
-  { name: 'Favourites', icon: FiStar },
-  { name: 'Settings', icon: FiSettings },
+  { name: 'File', iconName: 'FileCabinet' },
+  { name: 'Video', iconName: 'Video' },
+  { name: 'Image', iconName: 'Pic' },
+  { name: 'Music', iconName: 'Music' },
+  { name: 'Star', iconName: 'Star' },
 ]
 
 interface NavItemProps extends FlexProps {
-  icon: IconType
+  iconName: string
   children: ReactText
 }
 
-const NavItem = ({ icon, children, ...rest }: NavItemProps) => {
+const NavItem = ({ iconName, children, ...rest }: NavItemProps) => {
   return (
     <Link href="#" style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
       <Flex
@@ -43,15 +35,10 @@ const NavItem = ({ icon, children, ...rest }: NavItemProps) => {
           color: 'white',
         }}
         {...rest}>
-        {icon && (
-          <Icon
-            mr="4"
-            fontSize="16"
-            _groupHover={{
-              color: 'white',
-            }}
-            as={icon}
-          />
+        {iconName && (
+          <Box mr="3">
+            <IconPark type={iconName} size="21px"/>
+          </Box>
         )}
         {children}
       </Flex>
@@ -61,7 +48,7 @@ const NavItem = ({ icon, children, ...rest }: NavItemProps) => {
 
 export const NavItems = () => {
   const list = LinkItems.map((link) => (
-    <NavItem key={link.name} icon={link.icon}>
+    <NavItem key={link.name} iconName={link.iconName}>
       {link.name}
     </NavItem>
   ))
