@@ -14,6 +14,7 @@ import { PptIcon } from './icons/PptIcon'
 import { PdfIcon } from './icons/PdfIcon'
 import { TextIcon } from './icons/TextIcon'
 import { OtherIcon } from './icons/OtherIcon'
+import { FolderIcon } from './icons/FolderIcon'
 
 export interface ICloudFile {
   fkey: string,
@@ -118,6 +119,27 @@ const fileName = (key: string) => {
   )
 }
 
+const folderName = (key: string) => {
+  let folder
+  const folderName = key.substr(0, key.length - 1)
+
+  if (folderName.lastIndexOf('/') === -1) {
+    /* root */
+    folder = folderName
+  } else {
+    folder = folderName.substr(0, folderName.length - 1)
+  }
+
+  if (folder.length > 5) {
+    folder = folder.substr(0, 5) + '...' + folder.substr(folder.length - 3)
+  }
+  return (
+    <Text fontSize={'sm'}>
+      {folder}
+    </Text>
+  )
+}
+
 const fileSize = (size: number) => {
   let value: string
   switch (true) {
@@ -144,6 +166,7 @@ const fileSize = (size: number) => {
 }
 
 const FileCard = (cloudFile: ICloudFile) => {
+  const isDic = isFolder(cloudFile.fkey)
   return (
     <Box
       w="100px"
@@ -151,11 +174,17 @@ const FileCard = (cloudFile: ICloudFile) => {
       rounded="md"
       p="3"
     >
-      <VStack spacing={1}>
-        {fileIcon(cloudFile.fkey)}
-        {fileName(cloudFile.fkey)}
-        {fileSize(cloudFile.fsize)}
-      </VStack>
+      {isDic
+        ? <VStack spacing={3}>
+          <FolderIcon fontSize={55}/>
+          {folderName(cloudFile.fkey)}
+        </VStack>
+        : <VStack spacing={1}>
+          {fileIcon(cloudFile.fkey)}
+          {fileName(cloudFile.fkey)}
+          {fileSize(cloudFile.fsize)}
+        </VStack>
+      }
     </Box>
   )
 }
