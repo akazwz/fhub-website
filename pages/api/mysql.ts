@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { runCors } from '../../src/middleware/cors'
 import { Sequelize } from 'sequelize'
+import mysql2 from 'mysql2'
+import { runCors } from '../../src/middleware/cors'
 
 export default async function handle (req: NextApiRequest, res: NextApiResponse) {
   await runCors(req, res)
@@ -12,6 +13,7 @@ export default async function handle (req: NextApiRequest, res: NextApiResponse)
       host: process.env.MYSQL_HOST,
       port: Number(process.env.MYSQL_PORT),
       dialect: 'mysql',
+      dialectModule: mysql2,
     })
   try {
     await sequelize.authenticate()
