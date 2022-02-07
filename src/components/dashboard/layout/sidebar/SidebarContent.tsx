@@ -4,9 +4,10 @@ import {
   Flex,
   Text,
   BoxProps,
-  useColorModeValue
+  useColorModeValue, HStack
 } from '@chakra-ui/react'
 import { NavItems } from './NavItems'
+import { CloudStorage } from '@icon-park/react'
 
 interface SidebarProps extends BoxProps {
   onClose: () => void;
@@ -15,7 +16,7 @@ interface SidebarProps extends BoxProps {
 export const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
   return (
     <Box
-      transition="3s ease"
+      transition="1s ease"
       bg={useColorModeValue('white', 'grey.900')}
       borderRight="1px"
       borderRightColor={useColorModeValue('grey.200', 'grey.700')}
@@ -30,9 +31,24 @@ export const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
         mx="8"
         justifyContent="space-between"
       >
-        <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
-          Logo
-        </Text>
+        <HStack
+          spacing={3}
+        >
+          <CloudStorage
+            theme="two-tone"
+            size="37px"
+            fill={[useColorModeValue('black', 'white'), '#2F88FF']
+          }
+          />
+          <Text
+            bgGradient="linear(to-r,  #FF0080, #00B0FF)"
+            bgClip="text"
+            fontSize="3xl"
+            fontWeight="extrabold"
+          >
+            FHub
+          </Text>
+        </HStack>
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose}/>
       </Flex>
       <NavItems/>

@@ -20,6 +20,7 @@ import { FiMenu } from 'react-icons/fi'
 import { ColorModeToggle } from '../../../color-mode-toggle'
 import { useAuth } from '../../../../hooks/useAuth'
 import SettingDrawer from './SettingDrawer'
+import { CloudStorage } from '@icon-park/react'
 
 const ProfileMenu = () => {
   const { token, setStateLogout } = useAuth()
@@ -78,6 +79,7 @@ interface IProps extends FlexProps {
 export const DashBoardHeader = ({ onOpen, ...rest }: IProps) => {
   return (
     <Flex
+      transition="1s ease"
       ml={{ base: 0, md: 60 }}
       px={{ base: 4, md: 4 }}
       height="20"
@@ -95,15 +97,25 @@ export const DashBoardHeader = ({ onOpen, ...rest }: IProps) => {
         variant="outline"
         icon={<FiMenu/>}
       />
-
-      <Text
+      <HStack
+        spacing={3}
         display={{ base: 'flex', md: 'none' }}
-        fontSize="2xl"
-        fontFamily="monospace"
-        fontWeight="bold"
       >
-        Logo
-      </Text>
+        <CloudStorage
+          theme="two-tone"
+          size="30px"
+          fill={[useColorModeValue('black', 'white'), '#2F88FF']
+          }
+        />
+        <Text
+          bgGradient="linear(to-r,  #FF0080, #00B0FF)"
+          bgClip="text"
+          fontSize="xl"
+          fontWeight="extrabold"
+        >
+          FHub
+        </Text>
+      </HStack>
 
       <HStack spacing={{ base: 1, md: 6 }}>
         <ColorModeToggle/>

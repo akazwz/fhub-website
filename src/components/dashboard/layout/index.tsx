@@ -4,7 +4,7 @@ import {
   DrawerContent,
   Drawer,
   useColorModeValue,
-  useDisclosure ,
+  useDisclosure,
 } from '@chakra-ui/react'
 import { SidebarContent } from './sidebar/SidebarContent'
 import { DashBoardHeader } from './header'
@@ -35,7 +35,10 @@ export const DashBoardLayout = ({ children }: IProps) => {
         </DrawerContent>
       </Drawer>
       <DashBoardHeader onOpen={onOpen}/>
-      <Box ml={{ base: 0, md: 60 }} p="4">
+      <Box
+        ml={{ base: 0, md: 60 }}
+        p="4"
+      >
         {children}
       </Box>
     </Box>
