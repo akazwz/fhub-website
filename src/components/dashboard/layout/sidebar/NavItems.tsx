@@ -1,3 +1,4 @@
+import { ReactText } from 'react'
 import { IconType } from 'react-icons'
 import {
   FiCompass,
@@ -7,7 +8,7 @@ import {
   FiTrendingUp,
 } from 'react-icons/fi'
 import { Flex, FlexProps, Icon, Link } from '@chakra-ui/react'
-import React, { ReactText } from 'react'
+
 
 interface LinkItemProps {
   name: string

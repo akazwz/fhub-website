@@ -17,10 +17,10 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react'
 import { FiMenu } from 'react-icons/fi'
+import { CloudStorage } from '@icon-park/react'
 import { ColorModeToggle } from '../../../color-mode-toggle'
 import { useAuth } from '../../../../hooks/useAuth'
 import SettingDrawer from './SettingDrawer'
-import { CloudStorage } from '@icon-park/react'
 
 const ProfileMenu = () => {
   const { token, setStateLogout } = useAuth()
@@ -84,9 +84,9 @@ export const DashBoardHeader = ({ onOpen, ...rest }: IProps) => {
       px={{ base: 4, md: 4 }}
       height="20"
       alignItems="center"
-      bg={useColorModeValue('white', 'grey.900')}
+      bg={useColorModeValue('white', 'gray.900')}
       borderBottomWidth="1px"
-      borderBottomColor={useColorModeValue('grey.200', 'grey.700')}
+      borderBottomColor={useColorModeValue('gray.200', 'gray.700')}
       justifyContent={{ base: 'space-between', md: 'flex-end' }}
       {...rest}
     >

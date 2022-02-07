@@ -1,6 +1,8 @@
+import { useRef } from 'react'
 import {
   IconButton,
   DrawerContent,
+  DrawerOverlay,
   Flex,
   Text,
   CloseButton,
@@ -11,7 +13,6 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react'
 import { SettingTwo } from '@icon-park/react'
-import React, { useRef } from 'react'
 
 interface IProps extends BoxProps {
   onClose: () => void;
@@ -20,11 +21,11 @@ interface IProps extends BoxProps {
 const SettingContent = ({ onClose, ...rest }: IProps) => {
   return (
     <Box
+      bg={useColorModeValue('white', 'gray.900')}
       transition="3s ease"
-      bg={useColorModeValue('grey.100', 'grey.900')}
-      borderLeft="1px"
-      borderLeftColor={useColorModeValue('gray.200', 'gray.700')}
       pos="fixed"
+      borderLeftWidth="1px"
+      borderLeftColor={useColorModeValue('gray.200', 'gray.700')}
       w="full"
       h="full"
       {...rest}
@@ -65,6 +66,7 @@ const SettingDrawer = () => {
         size={'md'}
         finalFocusRef={btnRef}
       >
+        <DrawerOverlay/>
         <DrawerContent>
           <SettingContent onClose={onClose}/>
         </DrawerContent>
