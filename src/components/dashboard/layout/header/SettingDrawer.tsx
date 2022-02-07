@@ -21,7 +21,7 @@ const SettingContent = ({ onClose, ...rest }: IProps) => {
   return (
     <Box
       transition="3s ease"
-      bg={useColorModeValue('white', 'gray.900')}
+      bg={useColorModeValue('grey.100', 'grey.900')}
       borderLeft="1px"
       borderLeftColor={useColorModeValue('gray.200', 'gray.700')}
       pos="fixed"
@@ -49,7 +49,7 @@ const SettingDrawer = () => {
   const btnRef = useRef<HTMLButtonElement | null>(null)
 
   return (
-    <Box bg={useColorModeValue('grey.100', 'grey.900')}>
+    <Box bg={useColorModeValue('grey.100', 'grey.700')}>
       <IconButton
         ref={btnRef}
         aria-label={''}
