@@ -10,4 +10,8 @@ const sequelize = new Sequelize(
     dialect: 'mysql',
   })
 
+sequelize.authenticate().then().catch(() => {
+  throw new Error('connect error')
+})
+
 export default sequelize
