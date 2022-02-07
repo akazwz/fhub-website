@@ -1,32 +1,42 @@
 import { ReactText } from 'react'
-import IconPark from '@icon-park/react/es/all'
-import { Box, Flex, FlexProps, Link } from '@chakra-ui/react'
+import {
+  Box,
+  Flex,
+  Link,
+  FlexProps,
+} from '@chakra-ui/react'
+import IconPark from '@icon-park/react/lib/all'
+import { useRouter } from 'next/router'
 
 interface LinkItemProps {
   name: string
+  routeName: string
   iconName: string
 }
 
 const LinkItems: Array<LinkItemProps> = [
-  { name: 'File', iconName: 'FileCabinet' },
-  { name: 'Video', iconName: 'Video' },
-  { name: 'Image', iconName: 'Pic' },
-  { name: 'Music', iconName: 'Music' },
-  { name: 'Star', iconName: 'Star' },
+  { name: 'File', routeName: 'file', iconName: 'FileCabinet' },
+  { name: 'Video', routeName: 'video', iconName: 'Video' },
+  { name: 'Image', routeName: 'image', iconName: 'Pic' },
+  { name: 'Music', routeName: 'music', iconName: 'Music' },
+  { name: 'Star', routeName: 'star', iconName: 'Star' },
 ]
 
 interface NavItemProps extends FlexProps {
+  routeName: string
   iconName: string
   children: ReactText
 }
 
-const NavItem = ({ iconName, children, ...rest }: NavItemProps) => {
+const NavItem = ({ iconName, routeName, children, ...rest }: NavItemProps) => {
+  const router = useRouter()
   return (
-    <Link href="#" style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
+    <Link href={'/dashboard/' + routeName} style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
       <Flex
         align="center"
         p="4"
         mx="4"
+        mb="1"
         borderRadius="lg"
         role="group"
         cursor="pointer"
@@ -34,10 +44,15 @@ const NavItem = ({ iconName, children, ...rest }: NavItemProps) => {
           bg: 'cyan.400',
           color: 'white',
         }}
+        color={'/dashboard/' + routeName === router.asPath ? '#2F88FF' : ''}
         {...rest}>
         {iconName && (
           <Box mr="3">
-            <IconPark type={iconName} size="21px"/>
+            <IconPark
+              type={iconName}
+              size="21px"
+
+            />
           </Box>
         )}
         {children}
@@ -48,7 +63,11 @@ const NavItem = ({ iconName, children, ...rest }: NavItemProps) => {
 
 export const NavItems = () => {
   const list = LinkItems.map((link) => (
-    <NavItem key={link.name} iconName={link.iconName}>
+    <NavItem
+      key={link.name}
+      routeName={link.routeName}
+      iconName={link.iconName}
+    >
       {link.name}
     </NavItem>
   ))
