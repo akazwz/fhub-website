@@ -1,14 +1,19 @@
 import { ReactElement } from 'react'
-import { Box, Text, useColorModeValue, VStack } from '@chakra-ui/react'
-import { VideoIcon } from '../../../src/components/files/icons/VideoIcon'
-import { MusicIcon } from '../../../src/components/files/icons/MusicIcon'
-import { ImageIcon } from '../../../src/components/files/icons/ImageIcon'
-import { DocIcon } from '../../../src/components/files/icons/DocIcon'
-import { ExcelIcon } from '../../../src/components/files/icons/ExcelIcon'
-import { PptIcon } from '../../../src/components/files/icons/PptIcon'
-import { PdfIcon } from '../../../src/components/files/icons/PdfIcon'
-import { TextIcon } from '../../../src/components/files/icons/TextIcon'
-import { OtherIcon } from '../../../src/components/files/icons/OtherIcon'
+import {
+  Box,
+  Text,
+  VStack,
+  useColorModeValue,
+} from '@chakra-ui/react'
+import { VideoIcon } from './icons/VideoIcon'
+import { MusicIcon } from './icons/MusicIcon'
+import { ImageIcon } from './icons/ImageIcon'
+import { DocIcon } from './icons/DocIcon'
+import { ExcelIcon } from './icons/ExcelIcon'
+import { PptIcon } from './icons/PptIcon'
+import { PdfIcon } from './icons/PdfIcon'
+import { TextIcon } from './icons/TextIcon'
+import { OtherIcon } from './icons/OtherIcon'
 
 export interface ICloudFile {
   fkey: string,
