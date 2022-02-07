@@ -138,7 +138,7 @@ const fileSize = (size: number) => {
   )
 }
 
-export const FileCard = (cloudFile: ICloudFile) => {
+const FileCard = (cloudFile: ICloudFile) => {
   return (
     <Box
       w="100px"
@@ -152,6 +152,7 @@ export const FileCard = (cloudFile: ICloudFile) => {
         {fileSize(cloudFile.fsize)}
       </VStack>
     </Box>
-
   )
 }
+
+export default FileCard
