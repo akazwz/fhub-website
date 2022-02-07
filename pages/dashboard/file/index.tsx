@@ -5,7 +5,7 @@ import {
   Grid,
 } from '@chakra-ui/react'
 import { DashBoardLayout } from '../../../src/components/dashboard/layout'
-import FileCard, { ICloudFile } from '../../../src/components/files/FileCard'
+import FileCard, { ICloudFile } from '../../../src/components/file/FileCard'
 
 const File = () => {
   const files: ICloudFile[] = [
