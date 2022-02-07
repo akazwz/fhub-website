@@ -1,34 +1,18 @@
 import { ReactElement } from 'react'
-import { NextPage } from 'next'
-import { useRouter } from 'next/router'
-import {
-  VStack,
-  Text,
-  Box,
-  Container,
-  Grid,
-  Image,
-  Flex,
-  Button,
-  Stack,
-  Heading,
-  useColorModeValue,
-} from '@chakra-ui/react'
-import { VideoIcon } from '../src/components/files/icons/VideoIcon'
-import { MusicIcon } from '../src/components/files/icons/MusicIcon'
-import { ImageIcon } from '../src/components/files/icons/ImageIcon'
-import { DocIcon } from '../src/components/files/icons/DocIcon'
-import { ExcelIcon } from '../src/components/files/icons/ExcelIcon'
-import { PptIcon } from '../src/components/files/icons/PptIcon'
-import { PdfIcon } from '../src/components/files/icons/PdfIcon'
-import { TextIcon } from '../src/components/files/icons/TextIcon'
-import { OtherIcon } from '../src/components/files/icons/OtherIcon'
-import { Layout } from '../src/components/layout'
-import { useAuth } from '../src/hooks/useAuth'
+import { Box, Text, useColorModeValue, VStack } from '@chakra-ui/react'
+import { VideoIcon } from '../../../src/components/files/icons/VideoIcon'
+import { MusicIcon } from '../../../src/components/files/icons/MusicIcon'
+import { ImageIcon } from '../../../src/components/files/icons/ImageIcon'
+import { DocIcon } from '../../../src/components/files/icons/DocIcon'
+import { ExcelIcon } from '../../../src/components/files/icons/ExcelIcon'
+import { PptIcon } from '../../../src/components/files/icons/PptIcon'
+import { PdfIcon } from '../../../src/components/files/icons/PdfIcon'
+import { TextIcon } from '../../../src/components/files/icons/TextIcon'
+import { OtherIcon } from '../../../src/components/files/icons/OtherIcon'
 
-interface CloudFile {
-  key: string,
-  size: number,
+export interface ICloudFile {
+  fkey: string,
+  fsize: number,
 }
 
 const getFileExtension = (filePath: string): string => {
@@ -87,6 +71,10 @@ const isTextFile = (filePath: string): boolean => {
   const textExtensions = ['txt']
   const ext = getFileExtension(filePath).toLowerCase()
   return textExtensions.indexOf(ext) !== -1
+}
+
+const isFolder = (filePath: string): boolean => {
+  return filePath.substr(filePath.length - 1) === '/'
 }
 
 const fileIcon = (filePath: string): ReactElement => {
@@ -150,95 +138,20 @@ const fileSize = (size: number) => {
   )
 }
 
-const filePreview = (cloudFile: CloudFile) => {
+export const FileCard = (cloudFile: ICloudFile) => {
   return (
-    <VStack spacing={1}>
-      {fileIcon(cloudFile.key)}
-      {fileName(cloudFile.key)}
-      {fileSize(cloudFile.size)}
-    </VStack>
+    <Box
+      w="100px"
+      bg={useColorModeValue('blue.100', 'blue.900')}
+      rounded="md"
+      p="3"
+    >
+      <VStack spacing={1}>
+        {fileIcon(cloudFile.fkey)}
+        {fileName(cloudFile.fkey)}
+        {fileSize(cloudFile.fsize)}
+      </VStack>
+    </Box>
+
   )
 }
-
-const Files: NextPage = () => {
-  const bg = useColorModeValue('blue.100', 'blue.900')
-  const router = useRouter()
-  /*auth*/
-  const { isAuth } = useAuth()
-  if (!isAuth) {
-    return (
-      <Layout>
-        <Stack
-          minH={'70vh'}
-          spacing={10}
-          flexDirection={'column'}
-          alignItems={'center'}
-          justifyContent={'center'}
-        >
-          <Flex
-            maxW={{ base: 'sm', md: '2xl' }}
-          >
-            <Image src="/login.svg" alt="login"/>
-          </Flex>
-          <Heading>
-            Not Login
-          </Heading>
-          <Button
-            colorScheme="orange"
-            size="lg"
-            w={'xs'}
-            fontSize="md"
-            onClick={() => {router.push('/login', '/login', { locale: router.locale }).then()}}
-          >
-            Login First
-          </Button>
-        </Stack>
-      </Layout>
-    )
-  }
-
-  const files: CloudFile[] = [
-    { key: 'testtttttttttt.mp4', size: 3000 },
-    { key: 'test.mp3', size: 30000000 },
-    { key: 'test.pdf', size: 3000 },
-    { key: 'test.docx', size: 3000 },
-    { key: 'test.xlsx', size: 3000 },
-    { key: 'test.wav', size: 3000 },
-    { key: 'test.jpg', size: 3000 },
-    { key: 'test.png', size: 3000 },
-    { key: 'test.txt', size: 3000 },
-    { key: 'test.mp4', size: 3000 },
-    { key: 'test111.mp3', size: 3000 },
-  ]
-
-  const fileList = files.map((file) => {
-    return (
-      <Box
-        key={file.key}
-        w={'100px'}
-        bg={bg}
-        rounded={'md'}
-        p={3}
-      >
-        {filePreview(file)}
-      </Box>
-    )
-  })
-
-  return (
-    <Layout>
-      <Container maxW={'5xl'}>
-        <Grid
-          templateColumns={'repeat(auto-fill, minmax(100px, 1fr))'}
-          autoRows={'minmax(100px, auto)'}
-          gap={3}
-          padding={3}
-        >
-          {fileList}
-        </Grid>
-      </Container>
-    </Layout>
-  )
-}
-
-export default Files

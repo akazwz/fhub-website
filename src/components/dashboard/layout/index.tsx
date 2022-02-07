@@ -36,6 +36,7 @@ export const DashBoardLayout = ({ children }: IProps) => {
       </Drawer>
       <DashBoardHeader onOpen={onOpen}/>
       <Box
+        minH="100%"
         ml={{ base: 0, md: 60 }}
         p="4"
       >
