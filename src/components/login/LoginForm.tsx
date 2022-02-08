@@ -8,10 +8,8 @@ import {
   Stack,
   HTMLChakraProps,
 } from '@chakra-ui/react'
-import useSWR from 'swr'
 import { useAuth } from '../../hooks/useAuth'
 import { PasswordField } from './PasswordField'
-import useUser from '../../hooks/auth/useLogin'
 
 export const LoginForm = (props: HTMLChakraProps<'form'>) => {
   const [email, setEmail] = useState<string>('')
@@ -36,7 +34,6 @@ export const LoginForm = (props: HTMLChakraProps<'form'>) => {
           alert('password length must < 6')
           return
         }
-        useUser({username: email, password: password})
         setStateLogin(email)
       }}
       {...props}
