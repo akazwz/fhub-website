@@ -1,16 +1,16 @@
 import type { NextPage } from 'next'
-import { Box, Divider, Heading, Text } from '@chakra-ui/react'
-import { Layout } from '../src/components/layout'
-import { Feature } from '../src/components/home/feature'
-import { Quotee } from '../src/components/home/quotee'
-import { PublicFile } from '../src/components/home/public-file'
-import { PrivateFile } from '../src/components/home/private-file'
-import { Hero } from '../src/components/home/hero'
+import { Box, Divider, Heading, Text, useColorModeValue } from '@chakra-ui/react'
+import { Layout } from '../components/layout'
+import { Feature } from '../components/home/feature'
+import { Quotee } from '../components/home/quotee'
+import { PublicFile } from '../components/home/public-file'
+import { PrivateFile } from '../components/home/private-file'
+import { Hero } from '../components/home/hero'
 
 const Home: NextPage = () => {
   return (
     <Layout>
-      <Box>
+      <Box bg={useColorModeValue('white', 'gray.900')}>
         <Hero/>
         <Divider/>
         <Heading
